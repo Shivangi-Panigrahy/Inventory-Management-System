@@ -9,8 +9,7 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    role: 'user'
+    confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +65,8 @@ const Register = () => {
     
     try {
       const { confirmPassword, ...registrationData } = formData;
-      const result = await register(registrationData);
+      // All new registrations default to 'user' role
+      const result = await register({ ...registrationData, role: 'user' });
       
       if (result.success) {
         navigate('/dashboard');
@@ -199,24 +199,11 @@ const Register = () => {
               )}
             </div>
 
-            {/* Role Selection */}
-            <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                Role
-              </label>
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              >
-                <option value="user">User</option>
-                <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
-              </select>
-              <p className="mt-1 text-xs text-gray-500">
-                Select your role in the system. Admins have full access, managers can manage inventory, and users can view and manage their own items.
+            {/* Role Information */}
+            <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
+              <p className="text-sm text-blue-800">
+                <strong>Note:</strong> New accounts are created with 'User' role by default. 
+                Contact an administrator to upgrade your role if needed.
               </p>
             </div>
           </div>
