@@ -7,6 +7,7 @@ A comprehensive Inventory Management System built with the MERN stack (MongoDB, 
 ### Core Functionality
 - **CRUD Operations**: Create, Read, Update, and Delete inventory items
 - **User Authentication**: JWT-based authentication with role-based access control
+- **User Registration**: Secure self-registration with default 'user' role
 - **Real-time Updates**: Instant inventory updates with cache invalidation
 - **Search & Filter**: Advanced search and filtering capabilities
 - **Responsive Design**: Modern, mobile-friendly UI
@@ -17,6 +18,7 @@ A comprehensive Inventory Management System built with the MERN stack (MongoDB, 
 - **Data Validation**: Comprehensive input validation and error handling
 - **Rate Limiting**: Protection against API abuse
 - **Stock Alerts**: Automated low stock notifications
+- **Security**: Role-based access control with secure user registration
 
 ## 🛠️ Tech Stack
 
@@ -123,22 +125,38 @@ cd frontend
 npm start
 ```
 
-### 5. Create Admin User
+### 5. Create Initial Admin User
 ```bash
 cd backend
 node scripts/createAdminUser.js
 ```
 
-## 👤 Default Users
+## 👤 User Management & Access Control
 
-After running the setup script, you can login with:
+### 🔐 Security Model
+The system implements a secure role-based access control system:
+
+- **Admin Role**: Full system access, can manage all users and inventory
+- **Manager Role**: Can manage inventory and view user data
+- **User Role**: Can manage their own inventory items
+
+### 📝 User Registration
+- **Self-Registration**: Users can register through the web interface
+- **Default Role**: All new registrations automatically get 'user' role
+- **Security**: No privilege escalation - users cannot assign themselves admin/manager roles
+- **Admin Control**: Only existing admins can upgrade user roles
+
+### 🔑 Admin Access
+- **Script-based**: Admin users are created via backend scripts only
+- **Secure**: No web interface for admin creation
+- **Controlled**: Prevents unauthorized admin account creation
+
+## 👤 Default Admin User
+
+After running the setup script, you can login with the admin account:
 
 - **Admin User**:
   - Email: `admin@example.com`
-  - Password: `admin123`
-
-- **Regular User**:
-  - Email: `user@example.com`
   - Password: `admin123`
 
 ## 📱 Usage
@@ -147,6 +165,23 @@ After running the setup script, you can login with:
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8000
 - **API Documentation**: http://localhost:8000/health
+
+### Getting Started
+
+#### 1. Admin Setup
+1. Run the admin creation script: `node scripts/createAdminUser.js`
+2. Login with admin credentials
+3. Access admin features and user management
+
+#### 2. User Registration
+1. Navigate to the registration page
+2. Create a new account (automatically gets 'user' role)
+3. Login and start managing inventory
+
+#### 3. Role Management (Admin Only)
+1. Login as admin
+2. Access user management panel
+3. Upgrade user roles as needed
 
 ### Key Features
 
@@ -160,6 +195,7 @@ After running the setup script, you can login with:
 - Role-based access control (Admin, Manager, User)
 - Users can manage their own inventory items
 - Admins can manage all items and users
+- Secure role assignment (admin-only)
 
 #### Advanced Features
 - Automatic SKU generation
@@ -197,7 +233,7 @@ inventory-management-system/
 
 ### Authentication
 - `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
+- `POST /api/auth/register` - User registration (defaults to 'user' role)
 - `POST /api/auth/logout` - User logout
 - `GET /api/auth/me` - Get current user
 
@@ -247,6 +283,15 @@ Make sure to update environment variables for production:
 - Configure production database URLs
 - Set up Redis and RabbitMQ production instances
 
+## 🔒 Security Features
+
+- **Role-based Access Control**: Secure permission system
+- **No Privilege Escalation**: Users cannot self-promote
+- **Admin-only Role Management**: Controlled role assignment
+- **Input Validation**: Comprehensive form and API validation
+- **Rate Limiting**: Protection against abuse
+- **JWT Authentication**: Secure token-based auth
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -274,4 +319,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Note**: This is a comprehensive Inventory Management System built for evaluation purposes. It includes all the required features: CRUD operations, caching, queuing, search, filtering, authentication, authorization, and data validation. 
+**Note**: This is a comprehensive Inventory Management System built for evaluation purposes. It includes all the required features: CRUD operations, caching, queuing, search, filtering, authentication, authorization, and data validation with secure role-based access control. 
